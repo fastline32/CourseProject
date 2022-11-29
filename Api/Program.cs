@@ -1,8 +1,11 @@
 using Api.Extensions;
+using Api.Helpers;
 using Core;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
 // Add services to the container.
 builder.Services.AddApplicationServices();
@@ -11,6 +14,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddControllersWithViews();
+
+
 
 var app = builder.Build();
 

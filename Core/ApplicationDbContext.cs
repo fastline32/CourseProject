@@ -1,5 +1,6 @@
 ﻿using Core.Data.EntryDbModels;
 using Microsoft.EntityFrameworkCore;
+using Type = Core.Data.EntryDbModels.Type;
 
 namespace Core;
 
@@ -12,4 +13,5 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<Category> Categories { get; set; }
+    public DbSet<Type> Types { get; set; }
 }

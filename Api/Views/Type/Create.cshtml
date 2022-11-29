@@ -1,14 +1,13 @@
-﻿@model Api.Models.DTOs.EntryCategoryViewModel
-
+﻿@model Api.Models.DTOs.EntryTypeModel
 @{
-    ViewData["Title"] = "Create Category";
+    ViewData["Title"] = "Create Type";
 }
 
 <form method="post" asp-action="Create"> 
     <div class="border p-3">
         <div class="form-group row">
             <h2 class="text-info pl-3">
-                Add Category
+                Add Type
             </h2>
         </div>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -21,16 +20,6 @@
                     <div class="col-8">
                         <input asp-for="Name" class="form-control"/>
                         <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-
-                </div>
-                <div class="row mt-2">
-                    <div class="col-4">
-                        <label asp-for="DisplayOrder"></label>
-                    </div>
-                    <div class="col-8">
-                        <input asp-for="DisplayOrder" class="form-control"/>
-                        <span asp-validation-for="DisplayOrder" class="text-danger"></span>
                     </div>
 
                 </div>

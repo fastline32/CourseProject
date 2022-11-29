@@ -11216,6 +11216,10 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+    
+  .form-group {
+      margin-bottom: 1rem;
+  }
 }
 
 /*# sourceMappingURL=bootstrap.css.map */

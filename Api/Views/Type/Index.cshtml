@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Core.Data.EntryDbModels.Type>
+@{
+    ViewData["Title"] = "All Types";
+}
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">
+                Type List
+            </h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-action="Create" asp-controller="Type" class="btn btn-primary">
+                Create New Type
+            </a>
+        </div>
+    </div>
+    <br/><br/>
+
+    @if (Model.Any())
+    {
+        <table class="table table-bordered table-striped" style="width: 100%">
+            <thead>
+            <tr>
+                <th>Category Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td width="50%">@item.Name</td>
+                    <td></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No Type Exist.</p>
+    }
+</div>
