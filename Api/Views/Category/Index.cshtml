@@ -11,7 +11,7 @@
     </div>
         <div class="col-6 text-end">
             <a asp-action="Create" asp-controller="Category" class="btn btn-primary">
-                Create New Category
+                <i class="fas fa-plus"></i>&nbsp; Create New Category
             </a>
         </div>
     </div>
@@ -33,8 +33,8 @@
                     <td width="50%">@item.Name</td>
                     <td width="30%">@item.DisplayOrder</td>
                     <td class="text-center">
-                        <a asp-controller="Category" asp-route-id="@item.Id" asp-action="Edit" class="btn btn-primary">Edit</a>
-                        <a asp-controller="Category" asp-route-id="@item.Id" asp-action="Delete" class="btn btn-danger"> Delete</a>
+                        <a asp-controller="Category" asp-route-id="@item.Id" asp-action="Edit" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                        <a asp-controller="Category" asp-route-id="@item.Id" asp-action="Delete" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
             }

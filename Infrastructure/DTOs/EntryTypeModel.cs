@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Api.Models.DTOs;
+namespace Infrastructure.DTOs;
 
 public class EntryTypeModel
 {

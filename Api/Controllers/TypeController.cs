@@ -1,5 +1,6 @@
-﻿using Api.Models.DTOs;
-using AutoMapper;using Core.Interfaces;
+﻿using AutoMapper;
+using Core.Interfaces;
+using Infrastructure.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Type = Core.Data.EntryDbModels.Type;
 

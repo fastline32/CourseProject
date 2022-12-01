@@ -1,4 +1,4 @@
-﻿using Api.Models.DTOs;
+﻿using Infrastructure.DTOs;
 using AutoMapper;
 using Core.Data.EntryDbModels;
 using Core.Interfaces;
@@ -48,7 +48,7 @@ namespace Api.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpGet("edit")]
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || id == 0)
@@ -64,6 +64,46 @@ namespace Api.Controllers
             }
 
             return View(_mapper.Map<Category,CategoryViewModel>(model));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id,CategoryViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var item =await _repo.GetByIdAsync(id);
+
+            if (item == null)
+            {
+                return NotFound();
+            }
+            
+            item = _mapper.Map<CategoryViewModel, Category>(model);
+            item.Id = id;
+            await _repo.UpdateAsync(item);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            return View(_mapper.Map<Category, CategoryViewModel>(await _repo.GetByIdAsync(id)));
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirm(int? id)
+        {
+            var item = await _repo.GetByIdAsync(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            item.IsDeleted = true;
+            await _repo.UpdateAsync(item);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

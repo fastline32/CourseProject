@@ -1,4 +1,4 @@
-﻿using Api.Models.DTOs;
+﻿using Infrastructure.DTOs;
 using AutoMapper;
 using Core.Data.EntryDbModels;
 using Type = Core.Data.EntryDbModels.Type;
@@ -12,5 +12,6 @@ public class MappingProfiles : Profile
         CreateMap<EntryCategoryViewModel, Category>();
         CreateMap<EntryTypeModel, Type>();
         CreateMap<Category, CategoryViewModel>();
+        CreateMap<CategoryViewModel, Category>();
     }
 }

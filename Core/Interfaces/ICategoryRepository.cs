@@ -8,4 +8,6 @@ public interface ICategoryRepository
     bool FindByNameAsync(string name);
     Task AddItemToDbAsync(Category item);
     Task<Category?> GetByIdAsync(int? id);
+    Task UpdateAsync(Category category);
+    Task<Category> GetByNameAsync(string name);
 }

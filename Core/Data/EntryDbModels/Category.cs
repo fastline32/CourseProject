@@ -13,5 +13,6 @@ namespace Core.Data.EntryDbModels
         [Required]
         public string Name { get; set; } = null!;
         public int DisplayOrder { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }
