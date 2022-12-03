@@ -1,17 +1,17 @@
-﻿@model IEnumerable<Core.Data.EntryDbModels.Type>
+﻿@model IEnumerable<Core.Data.EntryDbModels.Product>
 @{
-    ViewData["Title"] = "All Types";
+    ViewData["Title"] = "All Products";
 }
 <div class="container p-3">
     <div class="row pt-4">
         <div class="col-6">
         <h2 class="text-primary">
-            Type List
+            Product List
         </h2>
     </div>
         <div class="col-6 text-end">
-            <a asp-action="Create" asp-controller="Type" class="btn btn-primary">
-                <i class="fas fa-plus"></i>&nbsp; Create New Type
+            <a asp-action="Upsert" class="btn btn-primary">
+                <i class="fas fa-plus"></i>&nbsp; Create New Product
             </a>
         </div>
     </div>
@@ -22,7 +22,8 @@
         <table class="table table-bordered table-striped" style="width: 100%">
             <thead>
             <tr>
-                <th>Type Name</th>
+                <th>Product Name</th>
+                <th>Price</th>
             </tr>
             </thead>
             <tbody>
@@ -30,9 +31,10 @@
             {
                 <tr>
                     <td width="50%">@item.Name</td>
+                    <td width="50%">@item.Price</td>
                     <td class="text-center">
-                        <a asp-controller="Type" asp-route-id="@item.Id" asp-action="Edit" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                        <a asp-controller="Type" asp-route-id="@item.Id" asp-action="Delete" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                        <a asp-route-id="@item.Id" asp-action="Upsert" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                        <a asp-route-id="@item.Id" asp-action="Delete" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
             }
@@ -41,6 +43,6 @@
     }
     else
     {
-        <p>No Type Exist.</p>
+        <p>No Product Exist.</p>
     }
 </div>

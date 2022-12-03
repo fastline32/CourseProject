@@ -11,7 +11,12 @@ public class MappingProfiles : Profile
     {
         CreateMap<EntryCategoryViewModel, Category>();
         CreateMap<EntryTypeModel, Type>();
+        CreateMap<Type, TypeViewModel>();
+        CreateMap<TypeViewModel, Type>();
         CreateMap<Category, CategoryViewModel>();
         CreateMap<CategoryViewModel, Category>();
+        // CreateMap<EntryProductDto, Product>();
+        // CreateMap<Product, ProductViewModel>().ForMember(x => x.Category, 
+        //     s => s.MapFrom(z => z.Category!.Name));
     }
 }

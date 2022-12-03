@@ -47,5 +47,61 @@ namespace Api.Controllers
             await _repo.AddItemToDbAsync(item);
             return RedirectToAction(nameof(Index));
         }
+        
+        [HttpGet]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            var model = await _repo.GetByIdAsync(id);
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return View(_mapper.Map<Type,TypeViewModel>(model));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int? id,TypeViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var item =await _repo.GetByIdAsync(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            item = _mapper.Map<TypeViewModel, Type>(model);
+            
+            await _repo.UpdateAsync(item);
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            return View(_mapper.Map<Type, TypeViewModel>(await _repo.GetByIdAsync(id)));
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirm(int? id)
+        {
+            var item = await _repo.GetByIdAsync(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            item.IsDeleted = true;
+            await _repo.UpdateAsync(item);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

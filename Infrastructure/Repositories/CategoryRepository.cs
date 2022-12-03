@@ -2,6 +2,7 @@
 using Core.Data.EntryDbModels;
 using Core.Interfaces;
 using Infrastructure.DTOs;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
@@ -47,5 +48,14 @@ public class CategoryRepository : ICategoryRepository
     {
         var item =await _db.Categories.Where(x => x.IsDeleted==false).FirstAsync(x => x.Name == name);
         return item;
+    }
+    public  IEnumerable<SelectListItem> GetSelectListAsync()
+    {
+        var items = _db.Categories.Where(x => x.IsDeleted == false).Select(x => new SelectListItem
+        {
+            Text = x.Name,
+            Value = x.Id.ToString()
+        });
+        return items;
     }
 }

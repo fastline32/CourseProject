@@ -1,4 +1,5 @@
 ﻿using Core.Data.EntryDbModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Core.Interfaces;
 
@@ -10,4 +11,5 @@ public interface ICategoryRepository
     Task<Category?> GetByIdAsync(int? id);
     Task UpdateAsync(Category category);
     Task<Category> GetByNameAsync(string name);
+    IEnumerable<SelectListItem> GetSelectListAsync();
 }
