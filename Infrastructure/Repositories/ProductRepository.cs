@@ -16,7 +16,10 @@ public class ProductRepository : IProductRepository
 
     public async Task<IEnumerable<Product>> GetAllAsync()
     {
-        return await _db.Products.Include(x => x.Category).Where(x => x.IsDeleted == false).ToListAsync();
+        return await _db.Products
+            .Include(x => x.Category)
+            .Include(x => x.Type)
+            .Where(x => x.IsDeleted == false).ToListAsync();
     }
 
     public bool FindByNameAsync(string name)
@@ -38,7 +41,10 @@ public class ProductRepository : IProductRepository
 
     public async Task<Product?> GetByIdAsync(int? id)
     {
-        var item = await _db.Products.AsNoTracking().Where(x => x.IsDeleted==false).FirstOrDefaultAsync(x => x.Id == id);
+        var item = await _db.Products.AsNoTracking()
+            .Include(x => x.Category)
+            .Include(x => x.Type)
+            .Where(x => x.IsDeleted==false).FirstOrDefaultAsync(x => x.Id == id);
         return item;
     }
 

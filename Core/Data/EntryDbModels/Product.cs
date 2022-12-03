@@ -22,4 +22,9 @@ public class Product
     public int CategoryId { get; set; }
     [ForeignKey((nameof(CategoryId)))]
     public virtual Category? Category { get; set; }
+
+    public int TypeId { get; set; }
+    
+    [ForeignKey(nameof(TypeId))]
+    public virtual Type? Type { get; set; }
 }

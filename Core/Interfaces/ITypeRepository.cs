@@ -1,4 +1,5 @@
-﻿using Type = Core.Data.EntryDbModels.Type;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Type = Core.Data.EntryDbModels.Type;
 
 namespace Core.Interfaces;
 
@@ -10,4 +11,5 @@ public interface ITypeRepository
     Task UpdateAsync(Type type);
     Task<Type?> GetByIdAsync(int? id);
     Task<Type> GetByNameAsync(string name);
+    IEnumerable<SelectListItem> GetSelectListAsync();
 }

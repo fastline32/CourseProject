@@ -43,7 +43,7 @@
                         <label asp-for="Product.Description"></label>
                     </div>
                     <div class="col-8">
-                        <input asp-for="Product.Description" class="form-control"/>
+                        <textarea asp-for="Product.Description" class="form-control summernote"></textarea>
                         <span asp-validation-for="Product.Description" class="text-danger"></span>
                     </div>
                 
@@ -62,9 +62,20 @@
                     </div>
                     <div class="col-8">
                         <select asp-for="Product.CategoryId" asp-items="@Model.CategorySelectList" class="form-control">
-                            <option disabled selected>--Select Category</option>
+                            <option disabled selected>--Select Category--</option>
                         </select>
                         <span asp-validation-for="Product.CategoryId"></span>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-4">
+                        <label asp-for="Product.TypeId"></label>
+                    </div>
+                    <div class="col-8">
+                        <select asp-for="Product.TypeId" asp-items="@Model.TypeSelectedList" class="form-control">
+                            <option disabled selected>--Select Type--</option>
+                        </select>
+                        <span asp-validation-for="Product.TypeId"></span>
                     </div>
                 </div>
                 <div class="row mt-2">
@@ -87,7 +98,10 @@
                 </div>
             </div>
             <div class="col-4">
-                @* Keep this empty *@
+                @if(Model.Product.Id!=0)
+                {
+                    <img src="@WebConstants.ImagePath@Model.Product.Image" width="100%" style="border-radius: 5px; border: 1px solid #bbb"/>
+                }
             </div>
         </div>
     </div>
@@ -98,6 +112,11 @@
         <partial name="_ValidationScriptsPartial"></partial>
     }
     <script>
+    $(document).ready(function (){
+        $('.summernote').summernote({
+        height:250
+        });
+    });
     function validateInput() {
         if (document.getElementById("uploadBox").value === "") {
             Swal.fire(

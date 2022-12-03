@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.Interfaces;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Type = Core.Data.EntryDbModels.Type;
 
@@ -46,5 +47,14 @@ public class TypeRepository : ITypeRepository
     {
         var item =await _db.Types.Where(x => x.IsDeleted==false).FirstAsync(x => x.Name == name);
         return item;
+    }
+    public  IEnumerable<SelectListItem> GetSelectListAsync()
+    {
+        var items = _db.Types.Where(x => x.IsDeleted == false).Select(x => new SelectListItem
+        {
+            Text = x.Name,
+            Value = x.Id.ToString()
+        });
+        return items;
     }
 }
