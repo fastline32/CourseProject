@@ -1,26 +1,42 @@
 ﻿using Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Core.Interfaces;
+using Infrastructure.DTOs;
 
 namespace Api.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IProductRepository _productRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IProductRepository productRepository,ICategoryRepository categoryRepository)
         {
             _logger = logger;
+            _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var homeViewModel = new HomeViewModel()
+            {
+                Categories = await _categoryRepository.GetAllAsync(),
+                Products = await _productRepository.GetAllAsync()
+            };
+            return View(homeViewModel);
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> Details(int id)
         {
-            return View();
+            var viewModel = new DetailsViewModel()
+            {
+                Product = await _productRepository.GetByIdAsync(id),
+                ExistInCart = false
+            };
+            return View(viewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

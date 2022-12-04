@@ -11,6 +11,8 @@ public class Product
     [Required]
     public string Name { get; set; } = null!;
 
+    public string ShortDescription { get; set; } = null!;
+
     public string? Description { get; set; }
     [Range(1,1500)]
     public double Price { get; set; }
