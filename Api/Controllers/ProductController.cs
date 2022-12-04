@@ -1,28 +1,24 @@
 ﻿using Infrastructure.DTOs;
-using AutoMapper;
 using Core;
 using Core.Data.EntryDbModels;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers
 {
     public class ProductController : Controller
     {
         private readonly IProductRepository _repo;
-        private readonly IMapper _mapper;
-        private readonly ApplicationDbContext _db;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ITypeRepository _typeRepository;
 
-        public ProductController(IProductRepository repo, IMapper mapper, ApplicationDbContext db,
-            ICategoryRepository categoryRepository, IWebHostEnvironment webHostEnvironment, ITypeRepository typeRepository)
+        public ProductController(IProductRepository repo,
+            ICategoryRepository categoryRepository, 
+            IWebHostEnvironment webHostEnvironment, 
+            ITypeRepository typeRepository)
         {
             _repo = repo;
-            _mapper = mapper;
-            _db = db;
             _categoryRepository = categoryRepository;
             _webHostEnvironment = webHostEnvironment;
             _typeRepository = typeRepository;
@@ -48,7 +44,7 @@ namespace Api.Controllers
             }
             else
             {
-                viewModel.Product =await _db.Products.FindAsync(id);
+                viewModel.Product =await _repo.GetByIdAsync(id);
                 if (viewModel.Product == null)
                 {
                     return NotFound();
@@ -87,7 +83,7 @@ namespace Api.Controllers
                 }
                 else
                 {
-                    var item = _db.Products.AsNoTracking().FirstOrDefault(x => x.Id == model.Product.Id);
+                    var item =await _repo.GetByIdAsync(model.Product.Id);
                     if (files.Count > 0)
                     {
                         string upload = webRootPath + WebConstants.ImagePath;
@@ -113,8 +109,7 @@ namespace Api.Controllers
                         model.Product.Image = item.Image;
                     }
 
-                    _db.Products.Update(item);
-                    await _db.SaveChangesAsync();
+                    await _repo.UpdateAsync(model.Product);
                     return RedirectToAction(nameof(Index));
                 }
             }

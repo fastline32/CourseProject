@@ -6,7 +6,7 @@ namespace Infrastructure.DTOs;
 
 public class ProductViewModel
 {
-    public Product Product { get; set; }
+    public Product Product { get; set; } = null!;
     public IEnumerable<SelectListItem>? CategorySelectList { get; set; }
     
     public IEnumerable<SelectListItem>? TypeSelectedList { get; set; }

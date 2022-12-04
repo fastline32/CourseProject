@@ -44,6 +44,7 @@ public class ProductRepository : IProductRepository
         var item = await _db.Products.AsNoTracking()
             .Include(x => x.Category)
             .Include(x => x.Type)
+            .AsNoTracking()
             .Where(x => x.IsDeleted==false).FirstOrDefaultAsync(x => x.Id == id);
         return item;
     }
