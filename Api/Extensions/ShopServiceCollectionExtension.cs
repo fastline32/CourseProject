@@ -10,6 +10,7 @@ public static class ShopServiceCollectionExtension
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ITypeRepository, TypeRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<ICartService, CartService>();
         return services;
     }
 }
