@@ -88,7 +88,7 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
-            return View(_mapper.Map<Type, TypeViewModel>(await _repo.GetByIdAsync(id)));
+            return View(_mapper.Map<Type, TypeViewModel>((await _repo.GetByIdAsync(id))!));
         }
         [HttpPost]
         public async Task<IActionResult> DeleteConfirm(int? id)

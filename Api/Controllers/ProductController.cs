@@ -1,5 +1,4 @@
 ﻿using Infrastructure.DTOs;
-using Core;
 using Core.Data.EntryDbModels;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -46,7 +45,7 @@ namespace Api.Controllers
             }
             else
             {
-                viewModel.Product =await _repo.GetByIdAsync(id);
+                viewModel.Product =(await _repo.GetByIdAsync(id));
                 if (viewModel.Product == null)
                 {
                     return NotFound();
@@ -92,7 +91,7 @@ namespace Api.Controllers
                         string fileName = Guid.NewGuid().ToString();
                         string extension = Path.GetExtension(files[0].FileName);
 
-                        var oldFilePath = Path.Combine(upload, model.Product.Image);
+                        var oldFilePath = Path.Combine(upload, model.Product.Image!);
 
                         if (System.IO.File.Exists(oldFilePath))
                         {
@@ -108,7 +107,7 @@ namespace Api.Controllers
                     }
                     else
                     {
-                        model.Product.Image = item.Image;
+                        model.Product.Image = item!.Image;
                     }
 
                     await _repo.UpdateAsync(model.Product);

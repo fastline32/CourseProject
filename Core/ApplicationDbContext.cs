@@ -1,4 +1,5 @@
 ﻿using Core.Data.EntryDbModels;
+using Core.Data.EntryDbModels.Inquiry;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Type = Core.Data.EntryDbModels.Type;
@@ -17,5 +18,8 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Type> Types { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+    public DbSet<InquiryHeader> InquiryHeaders { get; set; }
+    public DbSet<InquiryDetail> InquiryDetails { get; set; }
+    
     
 }

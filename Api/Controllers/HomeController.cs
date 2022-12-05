@@ -4,18 +4,17 @@ using System.Diagnostics;
 using Api.Extensions;
 using Core.Interfaces;
 using Infrastructure.DTOs;
+// ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 
 namespace Api.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
 
-        public HomeController(ILogger<HomeController> logger, IProductRepository productRepository,ICategoryRepository categoryRepository)
+        public HomeController(IProductRepository productRepository,ICategoryRepository categoryRepository)
         {
-            _logger = logger;
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
         }
@@ -41,7 +40,7 @@ namespace Api.Controllers
             
             var viewModel = new DetailsViewModel()
             {
-                Product = await _productRepository.GetByIdAsync(id),
+                Product = (await _productRepository.GetByIdAsync(id))!,
                 ExistInCart = false
             };
 
