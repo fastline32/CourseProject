@@ -1,6 +1,7 @@
 using Api.Extensions;
 using Api.Helpers;
 using Core;
+using Core.Data.EntryDbModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +18,11 @@ builder.Services.AddIdentity<IdentityUser,IdentityRole>()
     .AddDefaultTokenProviders()
     .AddDefaultUI()
     .AddEntityFrameworkStores<ApplicationDbContext>();
-
+builder.Services.AddIdentityCore<ApplicationUser>()
+    .AddRoles<IdentityRole>()
+    .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<ApplicationUser, IdentityRole>>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultUI();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession(options =>
 {

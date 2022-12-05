@@ -1,5 +1,7 @@
-﻿using Core.Interfaces;
+﻿using Api.Helpers;
+using Core.Interfaces;
 using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Api.Extensions;
 
@@ -11,6 +13,8 @@ public static class ShopServiceCollectionExtension
         services.AddScoped<ITypeRepository, TypeRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<ICartService, CartService>();
+        services.AddScoped<IAccountService, AccountService>();
+        services.AddTransient<IEmailSender, EmailSender>();
         return services;
     }
 }

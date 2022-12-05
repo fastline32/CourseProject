@@ -2,10 +2,12 @@
 using Core;
 using Core.Data.EntryDbModels;
 using Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
+    [Authorize(Roles = WebConstants.AdminRole )]
     public class ProductController : Controller
     {
         private readonly IProductRepository _repo;
