@@ -55,7 +55,7 @@ namespace Api.Controllers
         }
         
         [HttpPost,ActionName("Details")]
-        public IActionResult DetailsPost(int id)
+        public IActionResult DetailsPost(int id,DetailsViewModel viewModel)
         {
             var shoppingList = new List<ShoppingCart>();
             if (HttpContext.Session.Get<IEnumerable<ShoppingCart>>(WebConstants.SessionCart) != null
@@ -63,7 +63,7 @@ namespace Api.Controllers
             {
                 shoppingList = HttpContext.Session.Get<List<ShoppingCart>>(WebConstants.SessionCart);
             }
-            shoppingList.Add(new ShoppingCart{ProductId = id});
+            shoppingList.Add(new ShoppingCart{ProductId = id,TempQuantity = viewModel.Product.TempQuantity});
             HttpContext.Session.Set(WebConstants.SessionCart,shoppingList);
             return RedirectToAction(nameof(Index));
         }

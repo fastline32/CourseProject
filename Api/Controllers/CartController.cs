@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Text;
 using Api.Extensions;
+using Core.Data.EntryDbModels;
 using Core.Data.EntryDbModels.Inquiry;
 using Core.Interfaces;
 using Infrastructure.DTOs;
@@ -20,6 +21,7 @@ public class CartController : Controller
     private readonly IEmailSender _emailSender;
     private readonly IInquiryHeaderRepository _inquiryHeaderRepository;
     private readonly IInquiryDetailsRepository _inquiryDetailsRepository;
+    private readonly IProductRepository _productRepository;
 
     [BindProperty] 
     private ProductUserViewModel ProductUserViewModel { get; set; } = null!;
@@ -29,7 +31,8 @@ public class CartController : Controller
         IWebHostEnvironment webHostEnvironment,
         IEmailSender emailSender,
         IInquiryHeaderRepository inquiryHeaderRepository,
-        IInquiryDetailsRepository inquiryDetailsRepository)
+        IInquiryDetailsRepository inquiryDetailsRepository,
+        IProductRepository productRepository)
     {
         _cartService = cartService;
         _accountService = accountService;
@@ -37,6 +40,7 @@ public class CartController : Controller
         _emailSender = emailSender;
         _inquiryHeaderRepository = inquiryHeaderRepository;
         _inquiryDetailsRepository = inquiryDetailsRepository;
+        _productRepository = productRepository;
     }
 
     // GET
@@ -51,20 +55,61 @@ public class CartController : Controller
 
         var products = shoppingCartList.Select(i => i.ProductId).ToList();
         var productList = _cartService.GetAllProductsAsync(products);
-        return View(productList);
+        IList<Product> prodList = new List<Product>();
+        foreach (var carObj in shoppingCartList)
+        {
+            Product prodTemp = productList.FirstOrDefault(x => x.Id == carObj.ProductId);
+            prodTemp.TempQuantity = carObj.TempQuantity;
+            prodList.Add(prodTemp);
+        }
+        return View(productList.ToList());
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     [ActionName("Index")]
-    public IActionResult IndexPost()
+    public IActionResult IndexPost(IEnumerable<Product> items)
     {
-
+        List<ShoppingCart> shoppingCarts = new List<ShoppingCart>();
+        foreach (var product in items)
+        {
+            shoppingCarts.Add(new ShoppingCart()
+            {
+                ProductId = product.Id,
+                TempQuantity = product.TempQuantity
+            });
+        }
+        HttpContext.Session.Set(WebConstants.SessionCart,shoppingCarts);
         return RedirectToAction(nameof(Summary));
     }
 
     public async Task<IActionResult> Summary()
-    { var userId = User.FindFirstValue(ClaimTypes.Name);
+    {
+        ApplicationUser applicationUser;
+        if (User.IsInRole(WebConstants.AdminRole) || User.IsInRole(WebConstants.EditorRole))
+        {
+            if (HttpContext.Session.Get<int>(WebConstants.SessionInquiryId) != 0)
+            {
+                //Assign header by getting id from session and export from DB
+                InquiryHeader inquiryHeader = await _inquiryHeaderRepository.GetById(HttpContext.Session.Get<int>(WebConstants.SessionInquiryId));
+                applicationUser = new ApplicationUser()
+                {
+                    Email = inquiryHeader.Email,
+                    PhoneNumber = inquiryHeader.PhoneNumber,
+                    FullName = inquiryHeader.FullName
+                };
+            }
+            else
+            {
+                applicationUser = new ApplicationUser();
+            }
+        }
+        else
+        {
+            var userId = User.FindFirstValue(ClaimTypes.Name);
+            applicationUser =await _accountService.GetUserByIdAsync(userId);
+        }
+        
 
         var shoppingCartList = new List<ShoppingCart>();
         if (HttpContext.Session.Get<IEnumerable<ShoppingCart>>(WebConstants.SessionCart) != null
@@ -78,9 +123,15 @@ public class CartController : Controller
 
         ProductUserViewModel = new ProductUserViewModel()
         {
-            ApplicationUser = await _accountService.GetUserByIdAsync(userId),
-            Products = productList.ToList()
+            ApplicationUser = applicationUser,
         };
+
+        foreach (var product in shoppingCartList)
+        {
+            var temp = await _productRepository.GetByIdAsync(product.ProductId);
+            temp.TempQuantity = product.TempQuantity;
+            ProductUserViewModel.Products.Add(temp);
+        }
 
         return View(ProductUserViewModel);
     }
@@ -161,6 +212,23 @@ public class CartController : Controller
 
         shoppingCartList.Remove(shoppingCartList.FirstOrDefault(x => x.ProductId == id)!);
         HttpContext.Session.Set(WebConstants.SessionCart,shoppingCartList);
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult UpdateCart(IEnumerable<Product> items)
+    {
+        List<ShoppingCart> shoppingCarts = new List<ShoppingCart>();
+        foreach (var product in items)
+        {
+            shoppingCarts.Add(new ShoppingCart()
+            {
+                ProductId = product.Id,
+                TempQuantity = product.TempQuantity
+            });
+        }
+        HttpContext.Session.Set(WebConstants.SessionCart,shoppingCarts);
         return RedirectToAction(nameof(Index));
     }
 }

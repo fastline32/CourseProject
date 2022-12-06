@@ -5,6 +5,10 @@ namespace Core.Data.EntryDbModels;
 
 public class Product
 {
+    public Product()
+    {
+        TempQuantity = 1;
+    }
     [Key]
     public int Id { get; set; }
 
@@ -29,4 +33,8 @@ public class Product
     
     [ForeignKey(nameof(TypeId))]
     public virtual Type? Type { get; set; }
+
+    [NotMapped]
+    [Range(1, 1000, ErrorMessage = "Quantity must be greater than 0.")]
+    public int TempQuantity { get; set; }
 }
