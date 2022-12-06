@@ -1,4 +1,5 @@
-﻿using Core.Interfaces;
+﻿using Api.Extensions;
+using Core.Interfaces;
 using Infrastructure.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,9 @@ public class InquiryController : Controller
 {
     private readonly IInquiryHeaderRepository _inquiryHeaderRepository;
     private readonly IInquiryDetailsRepository _inquiryDetailsRepository;
+    
+    [BindProperty]
+    private InquiryViewModel ViewModel { get; set; }
 
     public InquiryController(IInquiryHeaderRepository inquiryHeaderRepository,
         IInquiryDetailsRepository inquiryDetailsRepository)
@@ -23,12 +27,44 @@ public class InquiryController : Controller
     
     public async Task<IActionResult> Details(int id)
     {
-        InquiryViewModel item = new InquiryViewModel()
+        ViewModel = new InquiryViewModel()
         {
             InquiryHeader = await _inquiryHeaderRepository.GetById(id),
             InquiryDetails = await _inquiryDetailsRepository.GetAllAsync(id)
         };
-        return View(item);
+        return View(ViewModel);
+    }
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [ActionName("Details")]
+    public async Task<IActionResult> DetailsPost(int id)
+    {
+        List<ShoppingCart> shoppingCarts = new List<ShoppingCart>();
+        var item = await _inquiryDetailsRepository.GetAllAsync(id);
+        foreach (var detail in item)
+        {
+            ShoppingCart shoppingCart = new ShoppingCart()
+            {
+                ProductId = detail.ProductId
+            };
+            shoppingCarts.Add(shoppingCart);
+        }
+        HttpContext.Session.Clear();
+        HttpContext.Session.Set(WebConstants.SessionCart,shoppingCarts);
+        HttpContext.Session.Set(WebConstants.SessionInquiryId, id);
+        return RedirectToAction("Index", "Cart");
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var inquiryHeader = await _inquiryHeaderRepository.GetById(id);
+        var item = await _inquiryDetailsRepository.GetAllAsync(id);
+        await _inquiryDetailsRepository.RemoveRangeAsync(item);
+        await _inquiryHeaderRepository.Remove(inquiryHeader);
+        
+        return RedirectToAction("Index","Inquiry");
     }
 
     #region API CALLS

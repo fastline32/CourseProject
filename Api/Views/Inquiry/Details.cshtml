@@ -59,7 +59,9 @@
                                         </div>
 
                                         <div class="col">
-                                            <input type="submit" value="Delete" class="btn btn-danger form-control"/>
+                                            <button onclick="post()" class="btn btn-danger form-control" name="button">
+                                                Delete
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -93,3 +95,14 @@
         </div>
     </div>
 </form>
+
+@section Scripts{
+    <script>
+    function post() {
+        $.ajax({
+            type: "POST",
+            url: "/Inquiry/Delete/@Model.InquiryHeader.Id"
+        })        
+    }
+</script>
+}

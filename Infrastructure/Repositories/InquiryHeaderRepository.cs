@@ -29,4 +29,10 @@ public class InquiryHeaderRepository :IInquiryHeaderRepository
     {
         return (await _db.InquiryHeaders.FirstOrDefaultAsync(x => x.Id == id))!;
     }
+
+    public async Task Remove(InquiryHeader item)
+    {
+        _db.InquiryHeaders.Remove(item);
+        await _db.SaveChangesAsync();
+    }
 }

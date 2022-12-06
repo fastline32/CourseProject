@@ -33,6 +33,7 @@ namespace Api.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData[WebConstants.Error] = "Error while creating category";
                 return View(model);
             }
 
@@ -45,6 +46,7 @@ namespace Api.Controllers
             var item = _mapper.Map<EntryCategoryViewModel, Category>(model);
 
             await _repo.AddItemToDbAsync(item);
+            TempData[WebConstants.Success] = "Category created successfully";
             return RedirectToAction(nameof(Index));
         }
 

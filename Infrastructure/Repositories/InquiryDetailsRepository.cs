@@ -27,8 +27,15 @@ public class InquiryDetailsRepository : IInquiryDetailsRepository
     
     public async Task<IEnumerable<InquiryDetail>> GetAllAsync(int id)
     {
-        return await _db.InquiryDetails.Include(x => x.Product)
-            .Where(x => x.InquiryHeader!.Id==id)
+        var item = await _db.InquiryDetails.Include(x => x.Product)
+            .Where(x => x.InquiryHeader.Id==id)
             .ToListAsync();
+        return item;
+    }
+
+    public async Task RemoveRangeAsync(IEnumerable<InquiryDetail> items)
+    {
+        _db.InquiryDetails.RemoveRange(items);
+        await _db.SaveChangesAsync();
     }
 }

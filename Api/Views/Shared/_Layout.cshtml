@@ -16,7 +16,7 @@
     @* ReSharper disable once Html.PathError *@
     <link rel="stylesheet" href="~/Api.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css" integrity="sha256-He3QEBKoL/nMXlVsoM7S2C2kjFQqS5L+mgA+F8LpG+U=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <link rel="stylesheet" href="~/fontawesome/css/all.css"/>
@@ -90,13 +90,14 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            <partial name="_Notifications"/>
             @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; @DateTime.UtcNow.Year - Test
+            &copy; @DateTime.UtcNow.Year
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -7,4 +7,5 @@ public interface IInquiryHeaderRepository
     Task AddAsync(InquiryHeader inquiryHeader);
     Task<IEnumerable<InquiryHeader>> GetAll();
     Task<InquiryHeader> GetById(int id);
+    Task Remove(InquiryHeader item);
 }
