@@ -1,4 +1,5 @@
 ﻿using Api.Helpers;
+using Api.Helpers.BrainTree;
 using Core.Interfaces;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -17,6 +18,8 @@ public static class ShopServiceCollectionExtension
         services.AddTransient<IEmailSender, EmailSender>();
         services.AddScoped<IInquiryHeaderRepository, InquiryHeaderRepository>();
         services.AddScoped<IInquiryDetailsRepository, InquiryDetailsRepository>();
+        services.AddScoped<IOrderHeaderRepository, OrderHeaderRepository>();
+        services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
         return services;
     }
 }

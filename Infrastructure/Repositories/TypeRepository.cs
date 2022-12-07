@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Type = Core.Data.EntryDbModels.Type;
 
 namespace Infrastructure.Repositories;
-
+//TODO: To Implement From Generic Repo
 public class TypeRepository : ITypeRepository
 {
     private readonly ApplicationDbContext _db;

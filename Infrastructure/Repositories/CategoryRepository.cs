@@ -7,55 +7,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public class CategoryRepository : ICategoryRepository
+public class CategoryRepository : Repository<Category>, ICategoryRepository
 {
     private readonly ApplicationDbContext _db;
 
-    public CategoryRepository(ApplicationDbContext db)
+    public CategoryRepository(ApplicationDbContext db) 
+        : base(db)
     {
         _db = db;
     }
 
-    public async Task<IEnumerable<Category>> GetAllAsync()
+    public async Task Update(Category category)
     {
-        return await _db.Categories.Where(x => x.IsDeleted == false).ToListAsync();
-    }
-
-    public bool FindByNameAsync(string name)
-    {
-        return _db.Categories.Where(x => x.IsDeleted==false).Any(x => x.Name == name);
-    }
-
-    public async Task AddItemToDbAsync(Category item)
-    {
-        await _db.AddAsync(item);
-        await _db.SaveChangesAsync();
-    }
-
-    public async Task UpdateAsync(Category category)
-    {
-        _db.Categories.Update(category);
-        await _db.SaveChangesAsync();
-    }
-
-    public async Task<Category?> GetByIdAsync(int? id)
-    {
-        var item = await _db.Categories.AsNoTracking().Where(x => x.IsDeleted==false).FirstOrDefaultAsync(x => x.Id == id);
-        return item;
-    }
-
-    public async Task<Category> GetByNameAsync(string name)
-    {
-        var item =await _db.Categories.Where(x => x.IsDeleted==false).FirstAsync(x => x.Name == name);
-        return item;
-    }
-    public  IEnumerable<SelectListItem> GetSelectListAsync()
-    {
-        var items = _db.Categories.Where(x => x.IsDeleted == false).Select(x => new SelectListItem
+        var item = await base.FirstOrDefault(x => x.Id == category.Id);
+        if (item != null)
         {
-            Text = x.Name,
-            Value = x.Id.ToString()
-        });
-        return items;
+            item.Name = category.Name;
+            item.DisplayOrder = category.DisplayOrder;
+            item.IsDeleted = category.IsDeleted;
+        }
     }
 }

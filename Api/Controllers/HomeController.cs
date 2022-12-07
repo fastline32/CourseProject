@@ -23,7 +23,7 @@ namespace Api.Controllers
         {
             var homeViewModel = new HomeViewModel()
             {
-                Categories = await _categoryRepository.GetAllAsync(),
+                Categories = _categoryRepository.GetAll(x => x.IsDeleted == false),
                 Products = await _productRepository.GetAllAsync()
             };
             return View(homeViewModel);

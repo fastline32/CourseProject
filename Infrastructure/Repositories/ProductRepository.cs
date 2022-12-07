@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
+//TODO:To Implement From Generic Repo
 public class ProductRepository : IProductRepository
 {
     private readonly ApplicationDbContext _db;

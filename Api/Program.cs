@@ -1,5 +1,7 @@
 using Api.Extensions;
 using Api.Helpers;
+using Api.Helpers.BrainTree;
+using Braintree;
 using Core;
 using Core.Data.EntryDbModels;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +13,9 @@ builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
 // Add services to the container.
 builder.Services.AddApplicationServices();
+
+builder.Services.Configure<BrainTreeSettings>(builder.Configuration.GetSection("BrainTree"));
+builder.Services.AddSingleton<IBrainTreeGate, BrainTreeGate>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

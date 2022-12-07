@@ -16,9 +16,9 @@ namespace Api.Controllers
             _repo = repo;
             _mapper = mapper;
         }
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _repo.GetAllAsync());
+            return View(_repo.GetAll().Where(x => x.IsDeleted == false));
         }
 
         [HttpGet]
@@ -37,7 +37,8 @@ namespace Api.Controllers
                 return View(model);
             }
 
-            if (_repo.FindByNameAsync(model.Name))
+            var foundItem = await _repo.FirstOrDefault(x => x.Name == model.Name);
+            if (foundItem!=null)
             {
                 ModelState.AddModelError("","This category already exist");
                 return View(model);
@@ -45,20 +46,21 @@ namespace Api.Controllers
 
             var item = _mapper.Map<EntryCategoryViewModel, Category>(model);
 
-            await _repo.AddItemToDbAsync(item);
+            await _repo.Add(item);
+            await _repo.Save();
             TempData[WebConstants.Success] = "Category created successfully";
             return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
 
-            var model = await _repo.GetByIdAsync(id);
+            var model = _repo.Find(id);
 
             if (model == null)
             {
@@ -76,7 +78,7 @@ namespace Api.Controllers
             {
                 return View(model);
             }
-            var item =await _repo.GetByIdAsync(id);
+            var item = _repo.Find(id);
 
             if (item == null)
             {
@@ -85,26 +87,28 @@ namespace Api.Controllers
             
             item = _mapper.Map<CategoryViewModel, Category>(model);
             item.Id = id;
-            await _repo.UpdateAsync(item);
+            await _repo.Update(item);
+            await _repo.Save();
             return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            return View(_mapper.Map<Category, CategoryViewModel>((await _repo.GetByIdAsync(id))!));
+            return View(_mapper.Map<Category, CategoryViewModel>((_repo.Find(id))!));
         }
         [HttpPost]
-        public async Task<IActionResult> DeleteConfirm(int? id)
+        public async Task<IActionResult> DeleteConfirm(int id)
         {
-            var item = await _repo.GetByIdAsync(id);
+            var item = _repo.Find(id);
             if (item == null)
             {
                 return NotFound();
             }
 
             item.IsDeleted = true;
-            await _repo.UpdateAsync(item);
+            await _repo.Update(item);
+            await _repo.Save();
             return RedirectToAction(nameof(Index));
         }
     }

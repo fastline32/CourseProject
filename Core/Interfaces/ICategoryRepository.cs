@@ -3,13 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Core.Interfaces;
 
-public interface ICategoryRepository
+public interface ICategoryRepository : IRepository<Category>
 {
-    Task<IEnumerable<Category>> GetAllAsync();
-    bool FindByNameAsync(string name);
-    Task AddItemToDbAsync(Category item);
-    Task<Category?> GetByIdAsync(int? id);
-    Task UpdateAsync(Category category);
-    Task<Category> GetByNameAsync(string name);
-    IEnumerable<SelectListItem> GetSelectListAsync();
+    Task Update(Category category);
 }

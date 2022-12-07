@@ -3,6 +3,7 @@ using Core.Data.EntryDbModels;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Api.Controllers
 {
@@ -35,7 +36,11 @@ namespace Api.Controllers
             ProductViewModel viewModel = new ProductViewModel()
             {
                 Product = new Product(),
-                CategorySelectList =_categoryRepository.GetSelectListAsync(),
+                CategorySelectList = _categoryRepository.GetAll(x => x.IsDeleted == false).Select(x => new SelectListItem()
+                {
+                    Text = x.Name,
+                    Value = x.Id.ToString()
+                }),
                 TypeSelectedList = _typeRepository.GetSelectListAsync()
             };
             
@@ -114,7 +119,11 @@ namespace Api.Controllers
                     return RedirectToAction(nameof(Index));
                 }
             }
-            model.CategorySelectList = _categoryRepository.GetSelectListAsync();
+            model.CategorySelectList = _categoryRepository.GetAll(x => x.IsDeleted == false).Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            });
             model.TypeSelectedList = _typeRepository.GetSelectListAsync();
             return View(model);
         }
