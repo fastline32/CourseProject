@@ -109,6 +109,7 @@ namespace Api.Areas.Identity.Pages.Account
             [Display(Name = "Username")]
             public string DisplayName { get; set; }
             
+            [Required]
             public string PhoneNumber { get; set; }
         }
 

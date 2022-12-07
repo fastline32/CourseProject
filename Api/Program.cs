@@ -1,7 +1,6 @@
 using Api.Extensions;
 using Api.Helpers;
 using Api.Helpers.BrainTree;
-using Braintree;
 using Core;
 using Core.Data.EntryDbModels;
 using Microsoft.AspNetCore.Identity;
@@ -34,6 +33,11 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromMinutes(10);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
+});
+builder.Services.AddAuthentication().AddFacebook(Options =>
+{
+    Options.AppId = "1583062832141502";
+    Options.AppSecret = "6996ee554c88c3aa6869701af0698eb1";
 });
 
 builder.Services.AddControllersWithViews();
