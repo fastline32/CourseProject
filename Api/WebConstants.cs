@@ -1,4 +1,6 @@
-﻿namespace Api;
+﻿using System.Collections.ObjectModel;
+
+namespace Api;
 
 public static class WebConstants
 {
@@ -24,4 +26,11 @@ public static class WebConstants
     public const string StatusShipped = "Shipped";
     public const string StatusCancelled = "Cancelled";
     public const string StatusRefunded = "Refunded";
+    
+    //For Orders
+    public static readonly IEnumerable<string> listStatus = new ReadOnlyCollection<string>(
+        new List<string>
+        {
+            StatusApproved, StatusCancelled, StatusPending, StatusRefunded, StatusShipped, StatusInProcess
+        });
 }

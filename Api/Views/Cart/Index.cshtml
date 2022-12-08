@@ -14,11 +14,11 @@
                         <div class="card-header bg-dark text-light ml-0 row container">
                             <div class="col-6">
                                 <i class="fa fa-shopping-cart"></i> &nbsp;
-                                Shopping Cart
+                                Количка
                             </div>
                             <div class="col-6 text-right">
-                                <a asp-action="Clear" class="btn btn-outline-danger btn-sm">Clear Cart</a>
-                                <a asp-action="Index" asp-controller="Home" class="btn btn-outline-info btn-sm">Continue Shopping</a>
+                                <a asp-action="Clear" class="btn btn-outline-danger btn-sm">Премахни всички</a>
+                                <a asp-action="Index" asp-controller="Home" class="btn btn-outline-info btn-sm">Продължи с пазаруването</a>
                             </div>
                         </div>
                         <div class="card-body">
@@ -26,30 +26,22 @@
                                 <div class="row" style="color:#821f3d">
                                     <div class="col-lg-2">
                                     </div>
-                                    @if (User.IsInRole(WebConstants.AdminRole) || User.IsInRole(WebConstants.EditorRole))
-                                    {
+                                   
                                         <div class="col-12 col-lg-3">
-                                            Product Details
+                                            Детайли
                                         </div>
-                                    }
-                                    else
-                                    {
-                                    <div class="col-12 col-lg-7">
-                                        Product Details
-                                    </div>
-                                    }
+                                    
+                                    
                                     <div class="col-12 col-lg-2">
-                                        Price per unit
+                                        Цена на брой
                                     </div>
-                                    @if (User.IsInRole(WebConstants.AdminRole) || User.IsInRole(WebConstants.EditorRole))
-                                    {
+                                    
                                         <div class="col-6 col-lg-2">
-                                            Quantity
+                                            Количество
                                         </div>
                                         <div class="col-6 col-lg-2">
-                                            Total Price
+                                            Общо
                                         </div>
-                                    }
                                     <div class="col-6 col-sm-4 col-lg-1">
                                     </div>
                                 </div>
@@ -66,36 +58,26 @@
                                     <div class="col-4 col-md-2 text-center py-2">
                                         <img src="@WebConstants.ImagePath@Model[i].Image" alt="@Model[i].Name" class="rounded" width="100%"/>
                                     </div>
-                                    @if (User.IsInRole(WebConstants.AdminRole) || User.IsInRole(WebConstants.EditorRole))
-                                    {
+                                    
                                         <div class="col-8 col-lg-3">
                                             <h5>@Model[i].Name</h5>
                                             <div style="font-size:11px;">@Model[i].ShortDescription</div>
                                         </div>
-                                    }
-                                    else
-                                    {
-                                        <div class="col-8 col-lg-7">
-                                            <h5>@Model[i].Name</h5>
-                                            <div style="font-size:11px;">@Model[i].ShortDescription</div>
-                                        </div>
-                                    }
+                                    
                                     <div class="col-3 col-lg-2 pt-lg-4" style="font-size:11px;">
-                                        <span style="font-size:17px;"> $@Model[i].Price</span>/unit
+                                        <span style="font-size:17px;"> @Model[i].Price.ToString("F2") лв.</span>
 
                                     </div>
-                                    @if (User.IsInRole(WebConstants.AdminRole) || User.IsInRole(WebConstants.EditorRole))
-                                    {
                                         <div class="col-4 col-lg-2 pt-lg-4" style="font-size:11px;">
                                             <input type="text" asp-for="@Model[i].TempQuantity" class="form-control"/>
+                                            <span asp-validation-for="@Model[i].TempQuantity" class="text-danger"></span>
                                         </div>
-                                        <div class="col-3 col-lg-2 pt-lg-4" style="font-size:11px;">
+                                        <di class="col-3 col-lg-2 pt-lg-4" style="font-size:11px;">
                                             @{ var total = Model[i].Price * Model[i].TempQuantity;
                                             }
-                                            <span style="font-size:17px;"> $@total</span>
-                                        </div>
-                                    }
-                                    <div class="col-2 col-lg-1 p-0 pt-lg-4 text-center">
+                                            <span style="font-size:17px;">@total.ToString("F2") лв.</span>
+                                        </di>
+                                        <div class="col-2 col-lg-1 p-0 pt-lg-4 text-center">
                                         <a asp-action="Remove" asp-route-id="@Model[i].Id" class="btn btn-outline-danger">
                                             <i class="fas fa-trash"></i>
                                         </a>
@@ -104,16 +86,12 @@
                                 orderTotal += Model[i].Price * Model[i].TempQuantity;
                                 <hr />
                             }
-                            
-                            @if (User.IsInRole(WebConstants.AdminRole) || User.IsInRole(WebConstants.EditorRole))
-                            {
-                                <div class="row">
+                            <div class="row">
                                     <div class="col-12 text-end pr-4" style="color: #821f3d">
-                                        Order Total : @string.Format("{0:c}",orderTotal)
+                                        Крайна сума : @string.Format("{0:f2}",orderTotal) лв.
                                     </div>
                                 </div>
-                            }
-                        </div>
+                                </div>
                         <div class="card-footer">
                             <div class="row">
                                 <div class="col-6 col-md-3 offset-md-6">
@@ -121,11 +99,11 @@
                                     {
                                         <input type="submit" asp-action="UpdateCart" formmethod="post" name="Update" value="Update Cart"
                                             class="btn btn-info form-control" />
-                                                            }
+                                    }
                                 </div>
                                 <div class="col-6 col-md-3">
                                     <button type="submit" class="btn btn-success form-control ">
-                                        <span>Continue</span>
+                                        <span>Продължи</span>
                                     </button>
                                 </div>
                             </div>
@@ -139,4 +117,9 @@
 else
 {
     <p>No Item Added to Cart</p>
+}
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial"/>
 }

@@ -17,6 +17,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.10" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
+    <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="20.3.0.60" />
     <PackageReference Include="toastr" Version="2.1.1" />
   </ItemGroup>
 

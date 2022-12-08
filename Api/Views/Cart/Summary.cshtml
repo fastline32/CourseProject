@@ -55,7 +55,7 @@
                                             <label>Address</label>
                                         </div>
                                         <div class="col-9">
-                                            <input asp-for="ApplicationUser.Address.StreetAddress" type="text" class="form-control" />
+                                            <input asp-for="ApplicationUser.Address.StreetAddress" required type="text" class="form-control" />
                                         </div>
                                     </div>
 
@@ -64,7 +64,7 @@
                                             <label>City</label>
                                         </div>
                                         <div class="col-9">
-                                            <input asp-for="ApplicationUser.Address.City" type="text" class="form-control" />
+                                            <input asp-for="ApplicationUser.Address.City" required type="text" class="form-control" />
                                         </div>
                                     </div>
 
@@ -73,7 +73,7 @@
                                             <label>Poastal Code</label>
                                         </div>
                                         <div class="col-9">
-                                            <input asp-for="ApplicationUser.Address.ZipCode" type="text" class="form-control" />
+                                            <input asp-for="ApplicationUser.Address.ZipCode" required type="text" class="form-control" />
                                         </div>
                                     </div>
                                 }
@@ -181,24 +181,29 @@
             var app_name = document.getElementById("ApplicationUser_FullName").value;
             var app_phone = document.getElementById("ApplicationUser_PhoneNumber").value;
             var app_email = document.getElementById("ApplicationUser_Email").value;
+            var app_street = document.getElementById("ApplicationUser_Address_StreetAddress").value;
+            var app_city = document.getElementById("ApplicationUser_Address_City").value;
+            var app_zipcode = document.getElementById("ApplicationUser_Address_ZipCode").value;
+            
+            
 
-            if (app_name.toString() == '') {
+            if (app_name.toString() === '') {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: 'Please enter Full Name!'
+                    text: 'Please enter Your Full Name!'
                 })
                 return false;
             }
-            if (app_phone.toString() == '') {
+            if (app_phone.toString() === '') {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: 'Please enter Phone Number!'
+                    text: 'Please enter Your Phone Number!'
                 })
                 return false;
             }
-            if (app_email.toString() == '') {
+            if (app_email.toString() === '') {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -206,6 +211,30 @@
                 })
                 return false;
             }
+            if (app_street.toString() === '') {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Please enter Street Address!'
+                            })
+                            return false;
+                        }
+            if (app_city.toString() === '') {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Please enter City!'
+                            })
+                            return false;
+                        }
+            if (app_zipcode.toString() === '') {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Please enter Postal Code!'
+                            })
+                            return false;
+                        }
 
             return true;
 
