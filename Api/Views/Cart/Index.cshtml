@@ -95,11 +95,8 @@
                         <div class="card-footer">
                             <div class="row">
                                 <div class="col-6 col-md-3 offset-md-6">
-                                    @if (User.IsInRole(WebConstants.AdminRole) || User.IsInRole(WebConstants.EditorRole))
-                                    {
-                                        <input type="submit" asp-action="UpdateCart" formmethod="post" name="Update" value="Update Cart"
+                                        <input type="submit" asp-action="UpdateCart" formmethod="post" name="Update" value="Обново количката"
                                             class="btn btn-info form-control" />
-                                    }
                                 </div>
                                 <div class="col-6 col-md-3">
                                     <button type="submit" class="btn btn-success form-control ">
@@ -116,7 +113,7 @@
 }
 else
 {
-    <p>No Item Added to Cart</p>
+    <p>Няма продукти в количката</p>
 }
 
 @section Scripts

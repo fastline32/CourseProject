@@ -8,7 +8,8 @@ public class ApplicationUser : IdentityUser
 {
     [Required]
     public string FullName { get; set; } = null!;
-    public string? DisplayName { get; set; }
+
+    public string DisplayName { get; set; } = null!;
     
     public bool IsDeleted { get; set; } = false;
 
@@ -16,4 +17,6 @@ public class ApplicationUser : IdentityUser
 
     [ForeignKey(nameof(AddressId))]
     public Address? Address { get; set; }
+
+    public DateTime? DeactivationDate { get; set; }
 }

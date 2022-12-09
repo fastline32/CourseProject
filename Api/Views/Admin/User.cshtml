@@ -1,0 +1,139 @@
+﻿@model Core.Data.EntryDbModels.ApplicationUser
+
+@{
+    ViewData["Title"] = "UserDetails";
+}
+
+<form method="post">
+    <input asp-for="@Model.Id" hidden/>
+    <br/>
+    <div class="backgroundWhite container">
+        <div class="card">
+            <div class="card-header bg-dark text-light ml-0 row container">
+                <div class="col-12 d-none d-md-block col-md-6 pb-1">
+                    <i class="fas fa-shopping-cart"></i> &nbsp; Order Summary
+                </div>
+                <div class="col-12 col-md-4 offset-md-2 text-right">
+                    <a asp-controller="Admin" asp-action="GetAllUsers" class="btn btn-outline-info form-control btn-sm">Back to Users</a>
+                </div>
+            </div>
+            <div class="card-body pb-0">
+                <div class="container rounded p-2">
+                    <div class="row">
+                        <div class="col-12 col-lg-6 pb-4">
+                            <div class="row">
+                                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-info">User Details:</span>
+                                </h4>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Full Name</div>
+                                <div class="col-9">
+
+                                    <input asp-for="@Model.FullName" type="text" class="form-control"/>
+                                    <span asp-validation-for="@Model.FullName" class="text-danger"></span>
+
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Username</div>
+                                <div class="col-9">
+                            
+                                    <input asp-for="@Model.DisplayName" type="text" class="form-control"/>
+                                    <span asp-validation-for="@Model.DisplayName" class="text-danger"></span>
+                            
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Phone</div>
+                                <div class="col-9">
+
+                                    <input asp-for="@Model.PhoneNumber" type="text" class="form-control"/>
+                                    <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Email</div>
+                                <div class="col-9">
+
+                                    <input asp-for="@Model.Email" type="text" class="form-control"/>
+                                    <span asp-validation-for="@Model.Email" class="text-danger"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="row my-1">
+                                <div class="col-3">Deactivation Date</div>
+                                <div class="col-9">
+                            
+                                    <input asp-for="@Model.DeactivationDate" id="deactivationDate" type="text" readonly class="form-control"/>
+                            
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Status</div>
+                                @if(@Model.IsDeleted == false)
+                                {
+                                    <div class="col-9">
+                                        <input asp-for="@Model.IsDeleted" type="text" value="Active" readonly class="form-control"/>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-9">
+                                        <input asp-for="@Model.IsDeleted" type="text" value="InActive" style="text-decoration-color: #20c997" readonly class="form-control"/>
+                                    </div>
+                                }
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-9 offset-3">
+                                    <input type="submit" value="Update Update Details" class="btn btn-warning form-control"
+                                           asp-action="UpdateOrderDetails" formmethod="post"/>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-12 col-lg-5 offset-lg-1">
+                            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-info">User Summary</span>
+                            </h4>
+
+
+                            <br/>
+                            @if(Model.IsDeleted == false)
+                            {
+                                <input type="submit" value="Deactivate Profile"
+                                       formmethod="post" asp-action="DeactivateProfile"
+                                       class="btn btn-info form-control"/>
+                            }
+                            @if(Model.IsDeleted == true)
+                            {
+                                <input type="submit" value="ReActivate User"
+                                       formmethod="post" asp-action="ReactivateUser"
+                                       class="btn btn-danger form-control"/>
+                                <input type="submit" value="Delete User"
+                                       formmethod="post" asp-action="DeleteUser"
+                                       class="btn btn-danger form-control"/>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial"/>
+    <script>
+    $(document).ready(function() {
+      var deactivationDate = document.getElementById("deactivationDate");
+      if (deactivationDate.value === '1/1/0001') {
+          deactivationDate.value = '';
+      }
+    })
+    </script>
+}
