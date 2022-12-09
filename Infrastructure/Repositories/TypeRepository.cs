@@ -37,9 +37,9 @@ public class TypeRepository : ITypeRepository
         await _db.SaveChangesAsync();
     }
 
-    public async Task<Type?> GetByIdAsync(int? id)
+    public async Task<Type> GetByIdAsync(int id)
     {
-        var item = await _db.Types.AsNoTracking().Where(x => x.IsDeleted==false).FirstOrDefaultAsync(x => x.Id == id);
+        var item = await _db.Types.Where(x => x.IsDeleted==false).FirstOrDefaultAsync(x => x.Id == id);
         return item;
     }
 

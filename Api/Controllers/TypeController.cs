@@ -49,7 +49,7 @@ namespace Api.Controllers
         }
         
         [HttpGet]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
             if (id == null || id == 0)
             {
@@ -68,7 +68,7 @@ namespace Api.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id,TypeViewModel model)
+        public async Task<IActionResult> Edit(int id,TypeViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -86,12 +86,12 @@ namespace Api.Controllers
             return RedirectToAction(nameof(Index));
         }
         [HttpGet]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
             return View(_mapper.Map<Type, TypeViewModel>((await _repo.GetByIdAsync(id))!));
         }
         [HttpPost]
-        public async Task<IActionResult> DeleteConfirm(int? id)
+        public async Task<IActionResult> DeleteConfirm(int id)
         {
             var item = await _repo.GetByIdAsync(id);
             if (item == null)

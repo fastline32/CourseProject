@@ -31,7 +31,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Upsert(int? id)
+        public async Task<IActionResult> Upsert(int id)
         {
             ProductViewModel viewModel = new ProductViewModel()
             {
@@ -115,7 +115,7 @@ namespace Api.Controllers
                         model.Product.Image = item!.Image;
                     }
 
-                    await _repo.UpdateAsync(model.Product);
+                    _repo.Update(model.Product);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -129,13 +129,13 @@ namespace Api.Controllers
         }
         
         [HttpGet]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
             return View(await _repo.GetByIdAsync(id));
         }
         [HttpPost,ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirm(int? id)
+        public async Task<IActionResult> DeleteConfirm(int id)
         {
             var item = await _repo.GetByIdAsync(id);
             if (item == null)
@@ -144,7 +144,7 @@ namespace Api.Controllers
             }
 
             item.IsDeleted = true;
-            await _repo.UpdateAsync(item);
+            _repo.Update(item);
             return RedirectToAction(nameof(Index));
         }
     }

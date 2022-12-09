@@ -19,7 +19,7 @@ public class Repository<T> : IRepository<T> where T : class
         return _dbSet.Find(id);
     }
 
-    public IEnumerable<T> GetAll(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null,
+    public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, string? includeProperties = null,
         bool isTracking = true)
     {
         IQueryable<T> query = _dbSet;

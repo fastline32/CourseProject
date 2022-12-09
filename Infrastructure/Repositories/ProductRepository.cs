@@ -34,13 +34,13 @@ public class ProductRepository : IProductRepository
         await _db.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(Product item)
+    public void Update(Product item)
     {
         _db.Products.Update(item);
-        await _db.SaveChangesAsync();
+        _db.SaveChanges();
     }
 
-    public async Task<Product?> GetByIdAsync(int? id)
+    public async Task<Product> GetByIdAsync(int id)
     {
         var item = await _db.Products.AsNoTracking()
             .Include(x => x.Category)
@@ -52,7 +52,10 @@ public class ProductRepository : IProductRepository
 
     public async Task<Product> GetByNameAsync(string name)
     {
-        var item =await _db.Products.Where(x => x.IsDeleted==false).FirstAsync(x => x.Name == name);
+        var item =
+            await _db.Products.AsNoTracking()
+                .Where(x => x.IsDeleted==false)
+                .FirstAsync(x => x.Name == name);
         return item;
     }
 }

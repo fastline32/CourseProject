@@ -9,7 +9,7 @@ public interface ITypeRepository
     bool FindByNameAsync(string name);
     Task AddItemToDbAsync(Type item);
     Task UpdateAsync(Type type);
-    Task<Type?> GetByIdAsync(int? id);
+    Task<Type> GetByIdAsync(int id);
     Task<Type> GetByNameAsync(string name);
     IEnumerable<SelectListItem> GetSelectListAsync();
 }

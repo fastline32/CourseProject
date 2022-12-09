@@ -18,7 +18,7 @@ namespace Api.Controllers
         }
         public IActionResult Index()
         {
-            return View(_repo.GetAll().Where(x => x.IsDeleted == false));
+            return View(_repo.GetAll(x => x.IsDeleted == false));
         }
 
         [HttpGet]
