@@ -2,10 +2,12 @@
 using AutoMapper;
 using Core.Data.EntryDbModels;
 using Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
+    [Authorize(Roles = WebConstants.AdminRole +","+WebConstants.EditorRole )]
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _repo;

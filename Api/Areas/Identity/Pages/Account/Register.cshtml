@@ -8,6 +8,7 @@
                 <div class="card">
                     <div class="card-body px-lg-5 pt-4">
                         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <h3 class="col-12 text-success text-center py-4">
                                 @if (User.IsInRole(WebConstants.AdminRole))
                                 {
@@ -18,18 +19,18 @@
                                     <strong>Register</strong>
                                 }
                             </h3>
-                            <hr />
+                            <hr/>
                             <div class="py-2">
-                                <input asp-for="Input.DisplayName" placeholder="Nick Name" class="form-control" />
+                                <input asp-for="Input.DisplayName" placeholder="Nick Name" class="form-control"/>
                                 <span asp-validation-for="Input.DisplayName" class="text-danger"></span>
                             </div>
                             <div class="py-2">
-                                <input asp-for="Input.FullName" placeholder="Full Name" class="form-control" />
+                                <input asp-for="Input.FullName" placeholder="Full Name" class="form-control"/>
                                 <span asp-validation-for="Input.FullName" class="text-danger"></span>
                             </div>
 
                             <div class="py-2">
-                                <input asp-for="Input.Email" placeholder="Email" type="email" class="form-control" />
+                                <input asp-for="Input.Email" placeholder="Email" type="email" class="form-control"/>
                                 <span asp-validation-for="Input.Email" class="text-danger"></span>
                             </div>
 
@@ -38,17 +39,17 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">+359</span>
                                     </div>
-                                    <input asp-for="Input.PhoneNumber" placeholder="Phone Number" type="text" class="form-control" />
+                                    <input asp-for="Input.PhoneNumber" placeholder="Phone Number" type="text" class="form-control"/>
                                 </div>
                                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
                             </div>
 
                             <div class="form-row row py-2">
                                 <div class="col-6">
-                                    <input asp-for="Input.Password" placeholder="Password" type="password" class="form-control" />
+                                    <input asp-for="Input.Password" placeholder="Password" type="password" class="form-control"/>
                                 </div>
                                 <div class="col-6">
-                                    <input asp-for="Input.ConfirmPassword" placeholder="Confirm Password" type="password" class="form-control" />
+                                    <input asp-for="Input.ConfirmPassword" placeholder="Confirm Password" type="password" class="form-control"/>
 
                                 </div>
                                 <span asp-validation-for="Input.Password" class="text-danger"></span>

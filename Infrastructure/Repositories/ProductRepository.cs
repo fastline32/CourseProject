@@ -42,7 +42,7 @@ public class ProductRepository : IProductRepository
 
     public async Task<Product> GetByIdAsync(int id)
     {
-        var item = await _db.Products.AsNoTracking()
+        var item = await _db.Products
             .Include(x => x.Category)
             .Include(x => x.Type)
             .AsNoTracking()

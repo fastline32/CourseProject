@@ -4,9 +4,9 @@
     var title = "Create Product";
 }
 <form method="post" enctype="multipart/form-data">
-    @if (Model.Product.Id != 0)
+    @if (Model.Product.Id != 0 && User.IsInRole(WebConstants.EditorRole) || User.IsInRole(WebConstants.AdminRole))
     {
-        title = "Edit Product";
+        title = "Редактиране на продукт";
         <input asp-for="Product.Id" hidden/>
     }
     <div class="border p-3">
@@ -20,7 +20,7 @@
             <div class="col-8">
                 <div class="row">
                     <div class="col-4">
-                        <label asp-for="Product.Name"></label>
+                        <label asp-for="Product.Name">Име</label>
                     </div>
                     <div class="col-8">
                         <input asp-for="Product.Name" class="form-control"/>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="row mt-2">
                     <div class="col-4">
-                        <label asp-for="Product.Price"></label>
+                        <label asp-for="Product.Price">Цена</label>
                     </div>
                     <div class="col-8">
                         <input asp-for="Product.Price" class="form-control"/>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="row mt-2">
                     <div class="col-4">
-                        <label asp-for="Product.ShortDescription"></label>
+                        <label asp-for="Product.ShortDescription">Кратко описание</label>
                     </div>
                     <div class="col-8">
                         <input asp-for="Product.ShortDescription" class="form-control"/>
@@ -50,7 +50,7 @@
                 </div>
                 <div class="row mt-2">
                     <div class="col-4">
-                        <label asp-for="Product.Description"></label>
+                        <label asp-for="Product.Description">Описание</label>
                     </div>
                     <div class="col-8">
                         <textarea asp-for="Product.Description" class="form-control summernote"></textarea>
@@ -60,7 +60,17 @@
                 </div>
                 <div class="row mt-2">
                     <div class="col-4">
-                        Image
+                        <label asp-for="Product.Quantity">Количество</label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Product.Quantity" class="form-control"></input>
+                        <span asp-validation-for="Product.Quantity" class="text-danger"></span>
+                    </div>
+                                
+                </div>
+                <div class="row mt-2">
+                    <div class="col-4">
+                        Снимка
                     </div>
                     <div class="col-8">
                         <input type="file" name="files" id="uploadBox" multiple class="form-control"/>
@@ -68,7 +78,7 @@
                 </div>
                 <div class="row mt-2">
                     <div class="col-4">
-                        <label asp-for="Product.CategoryId"></label>
+                        <label asp-for="Product.CategoryId">Категория</label>
                     </div>
                     <div class="col-8">
                         <select asp-for="Product.CategoryId" asp-items="@Model.CategorySelectList" class="form-select">
@@ -79,7 +89,7 @@
                 </div>
                 <div class="row mt-2">
                     <div class="col-4">
-                        <label asp-for="Product.TypeId"></label>
+                        <label asp-for="Product.TypeId">Вид</label>
                     </div>
                     <div class="col-8">
                         <select asp-for="Product.TypeId" asp-items="@Model.TypeSelectedList" class="form-select">
@@ -94,15 +104,15 @@
                         <div class="col">
                             @if(Model.Product.Id!=0)
                             {
-                                <input type="submit" class="btn btn-info w-100" value="Update"/>
+                                <input type="submit" class="btn btn-info w-100" value="Запазване"/>
                             }
                             else
                             {
-                                <input type="submit" onclick="return validateInput()" class="btn btn-success w-100" value="Create"/>
+                                <input type="submit" onclick="return validateInput()" class="btn btn-success w-100" value="Създаване"/>
                             }
                         </div>
                         <div class="col">
-                            <a asp-action="Index" class="btn btn-primary w-100"><i class="fas fa-sign-out-alt"></i>&nbsp; Back</a>
+                            <a asp-action="Index" class="btn btn-primary w-100"><i class="fas fa-sign-out-alt"></i>&nbsp; Назад</a>
                         </div>
                     </div>
                 </div>

@@ -37,4 +37,6 @@ public class Product
     [NotMapped]
     [Range(1, 1000, ErrorMessage = "Quantity must be greater than 0.")]
     public int TempQuantity { get; set; }
+
+    public int? Quantity { get; set; }
 }

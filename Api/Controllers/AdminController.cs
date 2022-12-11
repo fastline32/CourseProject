@@ -36,6 +36,7 @@ public class AdminController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeactivateProfile(string id)
     {
         if (string.IsNullOrEmpty(id))
@@ -53,8 +54,8 @@ public class AdminController : Controller
         return RedirectToAction(nameof(GetAllUsers));
     }
 
-    [HttpPost]
-    public async Task<IActionResult> DeleteUser(string id)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ChangeToEditorRole(string id)
     {
         if (string.IsNullOrEmpty(id))
         {
@@ -67,11 +68,13 @@ public class AdminController : Controller
         }
         var roles = await _userManager.GetRolesAsync(user);
         await _userManager.RemoveFromRolesAsync(user, roles);
-        await _userManager.DeleteAsync(user);
+        await _userManager.AddToRoleAsync(user, WebConstants.EditorRole);
         return RedirectToAction(nameof(GetAllUsers));
     }
+    
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> ReactivateUser(string id)
     {
         if (string.IsNullOrEmpty(id))

@@ -17,7 +17,7 @@ public class TypeRepository : ITypeRepository
 
     public async Task<IEnumerable<Type>> GetAllAsync()
     {
-        return await _db.Types.ToListAsync();
+        return await _db.Types.Where(x=> x.IsDeleted == false).ToListAsync();
     }
 
     public bool FindByNameAsync(string name)

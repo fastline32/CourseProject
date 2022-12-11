@@ -2,11 +2,13 @@
 using Braintree;
 using Core.Interfaces;
 using Infrastructure.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Api.Controllers;
 
+[Authorize(Roles = WebConstants.AdminRole)]
 public class OrderController : Controller
 {
     private readonly IOrderHeaderRepository _orderHRepository;

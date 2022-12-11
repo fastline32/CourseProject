@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Api.Controllers
 {
-    [Authorize(Roles = WebConstants.AdminRole )]
+    [Authorize(Roles = WebConstants.AdminRole +","+WebConstants.EditorRole )]
     public class ProductController : Controller
     {
         private readonly IProductRepository _repo;

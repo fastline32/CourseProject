@@ -35,22 +35,21 @@
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Начало</a>
                     </li>
                     @if (User.IsInRole(WebConstants.AdminRole) || User.IsInRole((WebConstants.EditorRole)))
                     {
                         <li class="nav-item dropdown text-dark">
                             <a class="dropdown-item dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Content Managment
+                                Управление на магазин
                             </a>
                             <ul class="dropdown-menu">
-                                <a class="dropdown-item" asp-area="" asp-controller="Category" asp-action="Index">Categories</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Type" asp-action="Index">Types</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Product" asp-action="Index">Product</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Category" asp-action="Index">Категории</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Type" asp-action="Index">Видове</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Product" asp-action="Index">Продукти</a>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Create Admin User</a>
                             </ul>
                         </li>
                     }
@@ -58,15 +57,14 @@
                     {
                         <li class="nav-item dropdown text-dark">
                             <a class="dropdown-item dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Order/Inquiry Managment
+                                Управление на поръчки/запитвания
                             </a>
                             <ul class="dropdown-menu">
-                                <a class="dropdown-item" asp-area="" asp-controller="Inquiry" asp-action="Index">Inquiry</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Order" asp-action="Index">Orders</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Inquiry" asp-action="Index">Запитвания</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Order" asp-action="Index">Поръчки</a>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Create Admin User</a>
                             </ul>
                         </li>
                     }
@@ -74,16 +72,16 @@
                     {
                         <li class="nav-item dropdown text-dark">
                             <a class="dropdown-item dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Admin Managment
+                                Управление на потребителите
                             </a>
                             <ul class="dropdown-menu">
-                                <a class="dropdown-item" asp-area="" asp-controller="Admin" asp-action="GetAllUsers">Users</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Admin" asp-action="GetAllUsers">Потребители</a>
                                 <a class="dropdown-item" asp-area="" asp-controller="Type" asp-action="Index">Types</a>
                                 <a class="dropdown-item" asp-area="" asp-controller="Product" asp-action="Index">Product</a>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Create Admin User</a>
+                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Създаване на админ</a>
                             </ul>
                         </li>
                     }

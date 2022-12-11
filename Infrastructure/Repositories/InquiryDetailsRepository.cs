@@ -28,7 +28,7 @@ public class InquiryDetailsRepository : IInquiryDetailsRepository
     public async Task<IEnumerable<InquiryDetail>> GetAllAsync(int id)
     {
         var item = await _db.InquiryDetails.Include(x => x.Product)
-            .Where(x => x.InquiryHeader.Id==id)
+            .Where(x => x.InquiryHeader!.Id==id)
             .ToListAsync();
         return item;
     }

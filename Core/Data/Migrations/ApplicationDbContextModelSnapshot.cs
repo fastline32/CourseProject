@@ -245,6 +245,9 @@ namespace Core.Data.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
+                    b.Property<int?>("Quantity")
+                        .HasColumnType("int");
+
                     b.Property<string>("ShortDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -563,7 +566,7 @@ namespace Core.Data.Migrations
             modelBuilder.Entity("Core.Data.EntryDbModels.Order.OrderHeader", b =>
                 {
                     b.HasOne("Core.Data.EntryDbModels.ApplicationUser", "CreatedBy")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("CreatedByUserId");
 
                     b.Navigation("CreatedBy");
@@ -646,6 +649,11 @@ namespace Core.Data.Migrations
                         .HasForeignKey("AddressId");
 
                     b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("Core.Data.EntryDbModels.ApplicationUser", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

@@ -15,11 +15,11 @@ public static class ShopServiceCollectionExtension
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<ICartService, CartService>();
         services.AddScoped<IAccountService, AccountService>();
-        services.AddTransient<IEmailSender, EmailSender>();
         services.AddScoped<IInquiryHeaderRepository, InquiryHeaderRepository>();
         services.AddScoped<IInquiryDetailsRepository, InquiryDetailsRepository>();
         services.AddScoped<IOrderHeaderRepository, OrderHeaderRepository>();
         services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
+        services.AddScoped<IEmailService, EmailService>();
         return services;
     }
 }

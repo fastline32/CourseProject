@@ -1,7 +1,10 @@
-﻿@model Core.Data.EntryDbModels.ApplicationUser
+﻿@using Microsoft.AspNetCore.Identity
+@using Core.Data.EntryDbModels
+@model Core.Data.EntryDbModels.ApplicationUser
+@inject UserManager<ApplicationUser> userManager;
 
 @{
-    ViewData["Title"] = "UserDetails";
+    ViewData["Title"] = "Информация за потребител";
 }
 
 <form method="post">
@@ -11,10 +14,10 @@
         <div class="card">
             <div class="card-header bg-dark text-light ml-0 row container">
                 <div class="col-12 d-none d-md-block col-md-6 pb-1">
-                    <i class="fas fa-shopping-cart"></i> &nbsp; Order Summary
+                    <i class="fas fa-shopping-cart"></i> &nbsp; Информация за потребител @Model.DisplayName
                 </div>
                 <div class="col-12 col-md-4 offset-md-2 text-right">
-                    <a asp-controller="Admin" asp-action="GetAllUsers" class="btn btn-outline-info form-control btn-sm">Back to Users</a>
+                    <a asp-controller="Admin" asp-action="GetAllUsers" class="btn btn-outline-info form-control btn-sm">Обратно</a>
                 </div>
             </div>
             <div class="card-body pb-0">
@@ -23,11 +26,11 @@
                         <div class="col-12 col-lg-6 pb-4">
                             <div class="row">
                                 <h4 class="d-flex justify-content-between align-items-center mb-3">
-                                    <span class="text-info">User Details:</span>
+                                    <span class="text-info">Детаили</span>
                                 </h4>
                             </div>
                             <div class="row my-1">
-                                <div class="col-3">Full Name</div>
+                                <div class="col-3">Пълно Име</div>
                                 <div class="col-9">
 
                                     <input asp-for="@Model.FullName" type="text" class="form-control"/>
@@ -36,7 +39,7 @@
                                 </div>
                             </div>
                             <div class="row my-1">
-                                <div class="col-3">Username</div>
+                                <div class="col-3">Потребителско Име</div>
                                 <div class="col-9">
                             
                                     <input asp-for="@Model.DisplayName" type="text" class="form-control"/>
@@ -45,7 +48,7 @@
                                 </div>
                             </div>
                             <div class="row my-1">
-                                <div class="col-3">Phone</div>
+                                <div class="col-3">Телефон</div>
                                 <div class="col-9">
 
                                     <input asp-for="@Model.PhoneNumber" type="text" class="form-control"/>
@@ -61,9 +64,19 @@
 
                                 </div>
                             </div>
+                            
+                            <div class="row my-1">
+                                <div class="col-3">Роля</div>
+                                <div class="col-9">
+                            
+                                    <input asp-for="@Model.Email" type="text" class="form-control"/>
+                                    <span asp-validation-for="@Model.Email" class="text-danger"></span>
+                            
+                                </div>
+                            </div>
 
                             <div class="row my-1">
-                                <div class="col-3">Deactivation Date</div>
+                                <div class="col-3">Дата на деактивация</div>
                                 <div class="col-9">
                             
                                     <input asp-for="@Model.DeactivationDate" id="deactivationDate" type="text" readonly class="form-control"/>
@@ -71,7 +84,7 @@
                                 </div>
                             </div>
                             <div class="row my-1">
-                                <div class="col-3">Status</div>
+                                <div class="col-3">Статус</div>
                                 @if(@Model.IsDeleted == false)
                                 {
                                     <div class="col-9">
@@ -96,25 +109,29 @@
                         </div>
                         <div class="col-12 col-lg-5 offset-lg-1">
                             <h4 class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="text-info">User Summary</span>
+                                <span class="text-info text-end">Промени</span>
                             </h4>
 
 
                             <br/>
                             @if(Model.IsDeleted == false)
                             {
-                                <input type="submit" value="Deactivate Profile"
+
+                                if (await userManager.IsInRoleAsync(Model, WebConstants.CustomerRole))
+                                {
+                                    <input type="submit" value="Направи модератор"
+                                           formmethod="post" asp-action="ChangeToEditorRole"
+                                           class="btn btn-success form-control"/>
+                                }
+                                <input type="submit" value="Деактивиране на профил"
                                        formmethod="post" asp-action="DeactivateProfile"
-                                       class="btn btn-info form-control"/>
+                                       class="btn btn-info form-control mt-2"/>
                             }
                             @if(Model.IsDeleted == true)
                             {
                                 <input type="submit" value="ReActivate User"
                                        formmethod="post" asp-action="ReactivateUser"
-                                       class="btn btn-danger form-control"/>
-                                <input type="submit" value="Delete User"
-                                       formmethod="post" asp-action="DeleteUser"
-                                       class="btn btn-danger form-control"/>
+                                       class="btn btn-success form-control">
                             }
                         </div>
                     </div>

@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Core.Interfaces;
 using Infrastructure.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Type = Core.Data.EntryDbModels.Type;
 
 namespace Api.Controllers
 {
+    [Authorize(Roles = WebConstants.AdminRole +","+WebConstants.EditorRole )]
     public class TypeController : Controller
     {
         private readonly IMapper _mapper;
@@ -88,7 +90,9 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            return View(_mapper.Map<Type, TypeViewModel>((await _repo.GetByIdAsync(id))!));
+            var item = await _repo.GetByIdAsync(id);
+            var returnItem = _mapper.Map<Type, TypeViewModel>(item);
+            return View(returnItem);
         }
         [HttpPost]
         public async Task<IActionResult> DeleteConfirm(int id)

@@ -9,6 +9,7 @@ public class OrderHeader
     public int Id { get; set; }
 
     public string? CreatedByUserId { get; set; }
+    
     [ForeignKey("CreatedByUserId")]
     public ApplicationUser? CreatedBy { get; set; }
 

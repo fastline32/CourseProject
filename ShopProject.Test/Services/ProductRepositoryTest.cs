@@ -5,6 +5,7 @@ using Xunit;
 
 namespace ShopProject.Test.Services;
 
+
 public class ProductRepositoryTest
 {
     [Fact]
@@ -138,6 +139,7 @@ public class ProductRepositoryTest
     //         Id = 1,
     //         IsDeleted = false,
     //         ShortDescription = "nqma",
+    //         TypeId = 1,
     //         Price = 10
     //     });
     //     await data.SaveChangesAsync();
@@ -146,7 +148,7 @@ public class ProductRepositoryTest
     //     var result = await productRepository.GetByIdAsync(1);
     //     Assert.NotNull(result);
     //     Assert.IsType<Product>(result);
-    // }
+    }
     
     // [Fact]
     // public async Task UpdateMethodTest()
@@ -197,4 +199,3 @@ public class ProductRepositoryTest
     //     Assert.NotNull(testProduct);
     //     Assert.Equal("Test3", testProduct.Name);
     // }
-}

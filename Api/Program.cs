@@ -39,7 +39,7 @@ builder.Services.AddAuthentication().AddFacebook(Options =>
     Options.AppId = "1583062832141502";
     Options.AppSecret = "6996ee554c88c3aa6869701af0698eb1";
 });
-
+builder.Services.Configure<SMTPConfigModel>(builder.Configuration.GetSection("SMTPConfig"));
 builder.Services.AddControllersWithViews();
 
 
