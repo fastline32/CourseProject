@@ -31,7 +31,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Upsert(int id)
+        public async Task<IActionResult> Upsert(int? id)
         {
             ProductViewModel viewModel = new ProductViewModel()
             {

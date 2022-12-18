@@ -156,9 +156,8 @@ namespace Api.Areas.Identity.Pages.Account
                         await _userManager.AddToRoleAsync(user, WebConstants.AdminRole);
                     }
                     else
-                    {
-                        
-                        //await _userManager.AddToRoleAsync(user, WebConstants.CustomerRole);
+                    { 
+                        await _userManager.AddToRoleAsync(user, WebConstants.CustomerRole);
                     }
                     
                     _logger.LogInformation("User created a new account with password.");

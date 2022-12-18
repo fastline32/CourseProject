@@ -40,7 +40,7 @@ public class ProductRepository : IProductRepository
         _db.SaveChanges();
     }
 
-    public async Task<Product> GetByIdAsync(int id)
+    public async Task<Product> GetByIdAsync(int? id)
     {
         var item = await _db.Products
             .Include(x => x.Category)

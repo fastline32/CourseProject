@@ -8,6 +8,6 @@ public interface IProductRepository
     bool FindByNameAsync(string name);
     Task AddItemToDbAsync(Product item);
     void Update(Product type);
-    Task<Product> GetByIdAsync(int id);
+    Task<Product> GetByIdAsync(int? id);
     Task<Product> GetByNameAsync(string name);
 }
