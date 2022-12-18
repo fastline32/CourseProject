@@ -145,7 +145,7 @@ namespace Api.Areas.Identity.Pages.Account
                 var user = new ApplicationUser{DisplayName = Input.DisplayName,PhoneNumber = Input.PhoneNumber, FullName = Input.FullName};
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _userStore.SetNormalizedUserNameAsync(user, Input.DisplayName, CancellationToken.None);
+                await _userStore.SetNormalizedUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
@@ -157,7 +157,8 @@ namespace Api.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _userManager.AddToRoleAsync(user, WebConstants.CustomerRole);
+                        
+                        //await _userManager.AddToRoleAsync(user, WebConstants.CustomerRole);
                     }
                     
                     _logger.LogInformation("User created a new account with password.");

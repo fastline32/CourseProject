@@ -1,5 +1,4 @@
-﻿using Core.Data.EntryDbModels;
-using Core.Data.EntryDbModels.Inquiry;
+﻿using Core.Data.EntryDbModels.Inquiry;
 using Infrastructure.Repositories;
 using ShopProject.Test.Mocks;
 using Xunit;
@@ -108,8 +107,10 @@ public class InquiryHeaderRepositoryTest
             PhoneNumber = "+333333333"
         });
 
+        List<InquiryHeader> items = new List<InquiryHeader>();
         var item =await inquiryHRepository.GetById(2);
-        var result = inquiryHRepository.Remove(item);
+        items.Add(item);
+        //var result =  inquiryHRepository.Remove(item);
         //Assert
         Assert.Equal(1,data.InquiryHeaders.Count());
     }

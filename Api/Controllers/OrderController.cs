@@ -16,8 +16,8 @@ public class OrderController : Controller
     private readonly IBrainTreeGate _braintreeGate;
 
     [BindProperty]
-    public OrderViewModel viewModel { get; set; }
-    
+    private OrderViewModel ViewModel { get; set; } = null!;
+
     public OrderController(IOrderHeaderRepository orderHRepository,
         IOrderDetailsRepository orderDRepository,
         IBrainTreeGate braintreeGate)
@@ -60,18 +60,18 @@ public class OrderController : Controller
 
     public async Task<IActionResult> Details(int id)
     {
-        viewModel = new OrderViewModel()
+        ViewModel = new OrderViewModel()
         {
             OrderHeader = await _orderHRepository.FirstOrDefault(x => x.Id == id),
             OrderDetails = _orderDRepository.GetAll(x => x.OrderHeaderId == id,includeProperties:"Product")
         };
-        return View(viewModel);
+        return View(ViewModel);
     }
 
     [HttpPost]
     public async Task<IActionResult> StartProcessing()
     {
-        var orderHeader = await _orderHRepository.FirstOrDefault(x => x.Id == viewModel.OrderHeader.Id);
+        var orderHeader = await _orderHRepository.FirstOrDefault(x => x.Id == ViewModel.OrderHeader.Id);
         orderHeader.OrderStatus = WebConstants.StatusInProcess;
         _orderHRepository.Update(orderHeader);
         await _orderHRepository.Save();
@@ -82,7 +82,7 @@ public class OrderController : Controller
     [HttpPost]
     public async Task<IActionResult> ShipOrder()
     {
-        var orderHeader = await _orderHRepository.FirstOrDefault(x => x.Id == viewModel.OrderHeader.Id);
+        var orderHeader = await _orderHRepository.FirstOrDefault(x => x.Id == ViewModel.OrderHeader.Id);
         orderHeader.OrderStatus = WebConstants.StatusShipped;
         orderHeader.ShippingDate = DateTime.UtcNow;
         _orderHRepository.Update(orderHeader);
@@ -94,7 +94,7 @@ public class OrderController : Controller
     [HttpPost]
     public async Task<IActionResult> CancelOrder()
     {
-        var orderHeader = await _orderHRepository.FirstOrDefault(x => x.Id == viewModel.OrderHeader.Id);
+        var orderHeader = await _orderHRepository.FirstOrDefault(x => x.Id == ViewModel.OrderHeader.Id);
         var gateway = _braintreeGate.GetGateway();
         Transaction transaction =await gateway.Transaction.FindAsync(orderHeader.TransactionId);
 
@@ -117,16 +117,22 @@ public class OrderController : Controller
     [HttpPost]
     public async Task<IActionResult> UpdateOrderDetails()
     {
-        var orderHeader = await _orderHRepository.FirstOrDefault(x => x.Id == viewModel.OrderHeader.Id);
-        orderHeader.FullName = viewModel.OrderHeader.FullName;
-        orderHeader.City = viewModel.OrderHeader.City;
-        orderHeader.PhoneNumber = viewModel.OrderHeader.PhoneNumber;
-        orderHeader.StreetAddress = viewModel.OrderHeader.StreetAddress;
-        orderHeader.ZipCode = viewModel.OrderHeader.ZipCode;
-        orderHeader.Email = viewModel.OrderHeader.Email;
+        var orderHeader = await _orderHRepository.FirstOrDefault(x => x.Id == ViewModel.OrderHeader.Id);
+        orderHeader.FullName = ViewModel.OrderHeader.FullName;
+        orderHeader.City = ViewModel.OrderHeader.City;
+        orderHeader.PhoneNumber = ViewModel.OrderHeader.PhoneNumber;
+        orderHeader.StreetAddress = ViewModel.OrderHeader.StreetAddress;
+        orderHeader.ZipCode = ViewModel.OrderHeader.ZipCode;
+        orderHeader.Email = ViewModel.OrderHeader.Email;
         _orderHRepository.Update(orderHeader);
         await _orderHRepository.Save();
         TempData[WebConstants.Success] = "Order Details Updated Successfully";
         return RedirectToAction("Details","Order",new {id = orderHeader.Id});
     }
+    
+    // [HttpGet]
+    // public async Task<IActionResult> MyOrders(string id)
+    // {
+    //     var orderHeader = await _orderHRepository.GetAll(x => x.)
+    // }
 }

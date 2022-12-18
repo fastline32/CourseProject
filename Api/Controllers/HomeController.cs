@@ -2,8 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Api.Extensions;
+using Core.Data;
+using Core.Data.EntryDbModels;
 using Core.Interfaces;
 using Infrastructure.DTOs;
+using Microsoft.AspNetCore.Identity;
+
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 
 namespace Api.Controllers
@@ -12,15 +16,24 @@ namespace Api.Controllers
     {
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(IProductRepository productRepository,ICategoryRepository categoryRepository)
+        public HomeController(IProductRepository productRepository,
+            ICategoryRepository categoryRepository,
+            RoleManager<IdentityRole> roleManager,
+            UserManager<ApplicationUser> userManager)
         {
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
+            _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
         {
+            await SeedData.SeedRoles(_roleManager);
+            await SeedData.SeedAdmin(_userManager);
             var homeViewModel = new HomeViewModel()
             {
                 Categories = _categoryRepository.GetAll(x => x.IsDeleted == false),
@@ -40,7 +53,7 @@ namespace Api.Controllers
             
             var viewModel = new DetailsViewModel()
             {
-                Product = (await _productRepository.GetByIdAsync(id))!,
+                Product = await _productRepository.GetByIdAsync(id),
                 ExistInCart = false
             };
 

@@ -35,21 +35,22 @@
         }
 
 
-    <form id="account" method="post">
-        @if (Model.ExternalLogins?.Count > 0)
-        {
-            <p style="text-align:center">ИЛИ</p>
-        }
+        <form id="account" method="post">
+            <div asp-validation-summary="ModelOnly"></div>
+            @if (Model.ExternalLogins?.Count > 0)
+            {
+                <p style="text-align:center">ИЛИ</p>
+            }
 
-        <input asp-for="Input.Email" placeholder="Email" type="email" class="mb-1 form-control" />
-        <input asp-for="Input.Password" placeholder="Password" type="password" class="form-control" />
-        <button type="submit" class="btn btn-success form-control"><i class="fas fa-sign-in-alt"></i> Вход</button>
+            <input asp-for="Input.Email" placeholder="Email" type="email" class="mb-1 form-control"/>
+            <input asp-for="Input.Password" placeholder="Password" type="password" class="form-control"/>
+            <button type="submit" class="btn btn-success form-control"><i class="fas fa-sign-in-alt"></i> Вход</button>
 
-        <a id="forgot-password" asp-page="./ForgotPassword" class="pb-2 text-info">Забравена парола</a>
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="btn btn-info text-white">Регистрация</a>
-        
-    </form>
+            <a id="forgot-password" asp-page="./ForgotPassword" class="pb-2 text-info">Забравена парола</a>
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="btn btn-info text-white">Регистрация</a>
+
+        </form>
 
     </div>
     @section Scripts {

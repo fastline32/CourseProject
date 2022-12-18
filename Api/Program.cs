@@ -34,10 +34,10 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
-builder.Services.AddAuthentication().AddFacebook(Options =>
+builder.Services.AddAuthentication().AddFacebook(options =>
 {
-    Options.AppId = "1583062832141502";
-    Options.AppSecret = "6996ee554c88c3aa6869701af0698eb1";
+    options.AppId = "1583062832141502";
+    options.AppSecret = "6996ee554c88c3aa6869701af0698eb1";
 });
 builder.Services.Configure<SMTPConfigModel>(builder.Configuration.GetSection("SMTPConfig"));
 builder.Services.AddControllersWithViews();
@@ -61,10 +61,10 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
-app.UseEndpoints(endpoit =>
+app.UseEndpoints(endpoint =>
     {
-        endpoit.MapRazorPages();
-        endpoit.MapControllerRoute(
+        endpoint.MapRazorPages();
+        endpoint.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
     }
